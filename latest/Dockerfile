@@ -1,7 +1,7 @@
 FROM alpine:latest
-LABEL MAINTAINER="Peter Winter <peter@pwntr.com>" \
+LABEL MAINTAINER="Peter Winter <peter@pwntr.com>, samrthomefans <smarthomefans@iobroker.cn>" \
     Description="Simple and lightweight Samba docker container, based on Alpine Linux." \
-    Version="1.0.2"
+    Version="1.0.0"
 
 # upgrade base system and install samba and supervisord
 RUN apk --no-cache upgrade && apk --no-cache add samba samba-common-tools supervisor
@@ -10,13 +10,13 @@ RUN apk --no-cache upgrade && apk --no-cache add samba samba-common-tools superv
 RUN mkdir /config /shared
 
 # copy config files from project folder to get a default config going for samba and supervisord
-COPY *.conf /config/
+COPY conf/*.conf /config/
 
-# add a non-root user and group called "rio" with no password, no home dir, no shell, and gid/uid set to 1000
-RUN addgroup -g 1000 rio && adduser -D -H -G rio -s /bin/false -u 1000 rio
+# add a non-root user and group called "smart" with no password, no home dir, no shell, and gid/uid set to 1000
+RUN addgroup -g 1000 smart && adduser -D -H -G smart -s /bin/false -u 1000 smart
 
-# create a samba user matching our user from above with a very simple password ("letsdance")
-RUN echo -e "letsdance\nletsdance" | smbpasswd -a -s -c /config/smb.conf rio
+# create a samba user matching our user from above with a very simple password ("abc123456")
+RUN echo -e "abc123456\nabc123456" | smbpasswd -a -s -c /config/smb.conf smart
 
 # volume mappings
 VOLUME /config /shared

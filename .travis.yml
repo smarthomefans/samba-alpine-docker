@@ -1,0 +1,34 @@
+sudo: required
+
+language: generic
+
+services:
+  - docker
+
+before_install:
+  - source version.sh
+  - echo $VERSION
+  - mkdir tmp
+  - >
+    pushd tmp &&
+    curl -L -o qemu-aarch64-static.tar.gz https://github.com/multiarch/qemu-user-static/releases/download/v2.11.1/qemu-aarch64-static.tar.gz &&
+    tar xzf qemu-aarch64-static.tar.gz &&
+    popd
+  - docker run --rm --privileged multiarch/qemu-user-static:register --reset
+  - docker build -f latest/Dockerfile -t smarthomefans/samba-alpine-docker .
+  - docker build -f aarch64/Dockerfile -t smarthomefans/samba-alpine-docker:aarch64 .
+  - docker tag smarthomefans/samba-alpine-dockerr smarthomefans/samba-alpine-docker:$VERSION
+  - docker tag smarthomefans/samba-alpine-docker:aarch64 smarthomefans/samba-alpine-docker:aarch64-$VERSION
+
+
+script:
+  - docker run -d smarthomefans/samba-alpine-docker:latest
+  - docker ps | grep latest
+  - docker run -d smarthomefans/samba-alpine-docker:aarch64
+  - docker ps | grep latest
+
+after_success:
+  - if [ -n "$TRAVIS_TAG" ]; then
+    docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD";
+    docker push smarthomefans/samba-alpine-docker;
+    fi

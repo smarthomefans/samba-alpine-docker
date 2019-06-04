@@ -7,23 +7,23 @@
 快速开始
 
 ```shell
-docker run -d --net host -v /path/to/share/:/shared --name samba smarthomefans/samba-alpine
+docker run -d --net host -v /path/to/share/:/shared --name samba smarthomefans/samba-alpine-docker
 ```
 
 端口映射
 
 ```shell
-docker run -d -p 135:135/tcp -p 137:137/udp -p 138:138/udp -p 139:139/tcp -p 445:445/tcp -v /path/to/share/:/shared --name samba smarthomefans/samba-alpine
+docker run -d -p 135:135/tcp -p 137:137/udp -p 138:138/udp -p 139:139/tcp -p 445:445/tcp -v /path/to/share/:/shared --name samba smarthomefans/samba-alpine-docker
 ```
 
 使用自定义的配置文件
 
 ```shell
-docker run -d -p 135:135/tcp -p 137:137/udp -p 138:138/udp -p 139:139/tcp -p 445:445/tcp -v /path/to/configs/:/config -v /path/to/share/:/shared --name samba smarthomefans/samba-alpine
+docker run -d -p 135:135/tcp -p 137:137/udp -p 138:138/udp -p 139:139/tcp -p 445:445/tcp -v /path/to/configs/:/config -v /path/to/share/:/shared --name samba smarthomefans/samba-alpine-docker
 ```
 
 自动重启
 
 ```shell
-docker run -d --restart=always -p 135:135/tcp -p 137:137/udp -p 138:138/udp -p 139:139/tcp -p 445:445/tcp -v /path/to/share/:/shared --name samba smarthomefans/samba-alpine
+docker run -d --restart=always -p 135:135/tcp -p 137:137/udp -p 138:138/udp -p 139:139/tcp -p 445:445/tcp -v /path/to/share/:/shared --name samba smarthomefans/samba-alpine-docker
 ```
